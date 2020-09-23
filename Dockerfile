@@ -37,11 +37,11 @@ RUN cp /opt/fping-es/logstash/conf.d/fping2es.conf /etc/logstash/conf.d/
 COPY kibana.yml /etc/kibana/kibana.yml
 COPY elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
 # COPY logstash.yml /etc/logstash/logstash.yml
-COPY start-elk.sh /etc/init.d
+#COPY start-elk.sh /etc/init.d
 RUN curl -L -O https://artifacts.elastic.co/downloads/beats/heartbeat/heartbeat-7.9.1-x86_64.rpm
 RUN rpm -vi heartbeat-7.9.1-x86_64.rpm
 # RUN heartbeat setup
 VOLUME [ "/var/lib/elasticsearch", "/opt/ssh-es", "/opt/fping-es" ]
-CMD [ "/etc/init.d/start-elk.sh" ]
+#CMD [ "/etc/init.d/start-elk.sh" ]
 # RUN heartbeat setup
 EXPOSE 5601 9200 9300 9600 5044
