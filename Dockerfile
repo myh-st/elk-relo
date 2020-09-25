@@ -26,22 +26,12 @@ RUN yum install elasticsearch kibana logstash -y
 RUN cd /opt && git clone https://github.com/myh-st/fping-es.git
 RUN cd /opt && git clone https://github.com/myh-st/ssh-es.git
 RUN cp /opt/fping-es/logstash/conf.d/fping2es.conf /etc/logstash/conf.d/
-# RUN rpm -ivh https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.9.1-x86_64.rpm
-# RUN rpm -ivh https://artifacts.elastic.co/downloads/logstash/logstash-7.9.1.rpm
-# RUN rpm -ivh https://artifacts.elastic.co/downloads/kibana/kibana-7.9.1-x86_64.rpm
-# RUN rpm -ivh https://artifacts.elastic.co/downloads/beats/heartbeat/heartbeat-7.9.1-x86_64.rpm
-# RUN systemctl start heartbeat-elastic && systemctl enable heartbeat-elastic
-# RUN systemctl start elasticsearch && systemctl enable elasticsearch
-# RUN systemctl start logstash && systemctl enable logstash
-# RUN systemctl start kibana && systemctl enable kibana
 COPY kibana.yml /etc/kibana/kibana.yml
 COPY elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
-# COPY logstash.yml /etc/logstash/logstash.yml
-#COPY start-elk.sh /etc/init.d
 RUN curl -L -O https://artifacts.elastic.co/downloads/beats/heartbeat/heartbeat-7.9.1-x86_64.rpm
 RUN rpm -vi heartbeat-7.9.1-x86_64.rpm
-# RUN heartbeat setup
-VOLUME [ "/var/lib/elasticsearch", "/opt/ssh-es", "/opt/fping-es" ]
-#CMD [ "/etc/init.d/start-elk.sh" ]
-# RUN heartbeat setup
+VOLUME [ "/var/lib/elasticsearch", "/var/log/elasticsearch" ]
+VOLUME [ "/var/lib/kibana", "/var/log/kibana" ]
+VOLUME [ "/var/lib/logstash", "/var/log/logstash" ]
+VOLUME [ "/opt/ssh-es", "/opt/fping-es" ]
 EXPOSE 5601 9200 9300 9600 5044
