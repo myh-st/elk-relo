@@ -1,3 +1,13 @@
+- name: Cache
+  uses: actions/cache@v2.1.1
+  with:
+    # A list of files, directories, and wildcard patterns to cache and restore
+    path: 
+    # An explicit key for restoring and saving the cache
+    key: 
+    # An ordered list of keys to use for restoring the cache if no cache hit occurred for key
+    restore-keys: # optional
+    
 name: Docker Image CI
 
 on:
@@ -13,6 +23,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: satackey/action-docker-layer-caching@v0.0.8
+      # Ignore the failure of a step and avoid terminating the job.
+      continue-on-error: true
+      
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag elk-relo:v7.9.1-$(date +%s)
+      run: docker build . --file Dockerfile --tag elk-relo:v7.9.1-$(date +%d%m%y)
